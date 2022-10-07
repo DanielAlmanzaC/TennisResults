@@ -1,0 +1,49 @@
+#How many GSs does each country has
+SELECT DISTINCT WINNER_NATIONALITY AS NATIONALITY, COUNT(WINNER_NATIONALITY) AS WINS
+FROM Tennis.GS_Winners
+GROUP BY WINNER_NATIONALITY
+ORDER BY WINS DESC;
+
+#Which player has won the most GS finals and who has lost the most
+SELECT WINNER, COUNT(WINNER) AS WINS
+FROM Tennis.GS_Winners gw 
+GROUP BY WINNER
+ORDER BY WINS DESC
+LIMIT 10;
+
+SELECT RUNNER_UP , COUNT(RUNNER_UP) AS DEFEATS
+FROM Tennis.GS_Winners gw 
+GROUP BY RUNNER_UP 
+ORDER BY DEFEATS DESC
+LIMIT 10;
+#WHERE WINS = (SELECT MAX(COUNT(WINNER)) FROM Tennis.GS_Winners)
+
+#Who has won a final vs the Big 3 (Nadal, Federer or Djokovic). Dont consider the big 3 beating another member.
+SELECT WINNER, RUNNER_UP, YEAR, TOURNAMENT
+FROM Tennis.GS_Winners gw 
+WHERE 
+RUNNER_UP = "Novak Djokovic" AND WINNER != "Roger Federer" AND WINNER != "Rafael Nadal" OR 
+RUNNER_UP = "Roger Federer" AND WINNER != "Novak Djokovic" AND WINNER != "Rafael Nadal" OR 
+RUNNER_UP = "Rafael Nadal" AND WINNER != "Novak Djokovic" AND WINNER != "Roger Federer";
+
+#How many Spaniards have won each Grand Slam
+
+SELECT TOURNAMENT, COUNT(WINNER_NATIONALITY) AS WINS
+FROM Tennis.GS_Winners gw 
+WHERE WINNER_NATIONALITY = "Spanish"
+GROUP BY TOURNAMENT 
+ORDER BY WINS DESC;
+
+#Now do Aussies and Americans
+
+SELECT TOURNAMENT, COUNT(WINNER_NATIONALITY) AS WINS
+FROM Tennis.GS_Winners gw 
+WHERE WINNER_NATIONALITY = "Australian"
+GROUP BY TOURNAMENT 
+ORDER BY WINS DESC;
+
+SELECT TOURNAMENT, COUNT(WINNER_NATIONALITY) AS WINS
+FROM Tennis.GS_Winners gw
+WHERE WINNER_NATIONALITY = "American"
+GROUP BY TOURNAMENT 
+ORDER BY WINS DESC;
